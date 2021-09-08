@@ -182,11 +182,6 @@ public class ValidatorTest {
         assertFalse(mapShapeSchema.isValid(human));
     }
 
-    @Test
-    void mapShapeContainsTest() {
-
-    }
-
     private MapSchema mapSchemaInit() {
         MapSchema shapeMapSchema = validator.map();
         Map<String, BaseSchema> schemas = new HashMap<>();
