@@ -16,11 +16,15 @@ group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
 
 application {
-    mainClass = 'hexlet.code.App'
+    mainClass = 'hexlet.code.Validator'
 }
 
 test {
     useJUnitPlatform()
+}
+
+compileJava {
+    options.release = 11
 }
 
 repositories {
@@ -32,6 +36,3 @@ dependencies {
     implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
 }
 
-compileJava {
-    options.release = 11
-}
