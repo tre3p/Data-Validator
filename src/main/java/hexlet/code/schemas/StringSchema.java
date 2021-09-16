@@ -1,52 +1,45 @@
 package hexlet.code.schemas;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public class StringSchema extends BaseSchema {
-    private String substring = "";
-    private int minLength = 0;
-    private boolean required = false;
-
     @Override
     public final boolean isValid(Object o) {
-        if (isRequired() && o instanceof String) {
-            return requiredStringCheck(o.toString());
-        }
-        return !isRequired() || !Objects.equals(o, null);
+        return super.isValid(o);
     }
 
-    private boolean requiredStringCheck(String str) {
-        if (Objects.equals(str, null)) {
-            return super.isValid(str);
-        }
-        if (str.length() <= 0) {
-            return false;
-        }
-        if (!str.contains(substring)) {
-            return false;
-        }
-        return str.length() >= minLength;
-    }
+    /**
+     * @param str
+     * @return current instance.
+     */
 
-    public final StringSchema contains(String str) {
-        substring = str;
-        return this;
-    }
-
-    public final StringSchema minLength(int min) {
-        minLength = min;
-        return this;
-    }
-
-    public final StringSchema required() {
-        required = true;
+    public StringSchema contains(String str) {
+        Predicate<Object> containsPredicate = p -> p instanceof String && ((String) p).contains(str);
+        super.addPredicate(containsPredicate);
         return this;
     }
 
     /**
-     * @return condition of boolean 'required'
+     * @param min
+     * @return current instance.
      */
-    public boolean isRequired() {
-        return this.required;
+    public StringSchema minLength(int min) {
+        Predicate<Object> minLengthPredicate = p -> p instanceof String && (((String) p).length() >= min);
+        super.addPredicate(minLengthPredicate);
+        return this;
+    }
+
+    /**
+     * @return current instance.
+     */
+
+    public StringSchema required() {
+        Predicate<Object> requiredNullPredicate = p -> !Objects.equals(p, null);
+        Predicate<Object> requiredEmptyPredicate = p -> p instanceof String && !((String) p).isEmpty();
+        super.addPredicate(requiredEmptyPredicate);
+        super.addPredicate(requiredNullPredicate);
+        super.setRequired();
+        return this;
     }
 }

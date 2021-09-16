@@ -4,33 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class MapSchema extends BaseSchema {
-    private int sizeOfMap;
     private  List<BaseSchema> listOfSchemas = new ArrayList<>();
     private List<String> listOfKeys = new ArrayList<>();
-    private boolean required = false;
 
     @Override
     public final boolean isValid(Object o) {
         if (listOfSchemas.isEmpty()) {
-            if (isRequired()) {
-                if (o == null) {
-                    return super.isValid(o);
-                }
-                return ((HashMap<Object, Object>) o).size() >= sizeOfMap;
-            }
-        } else {
-            return shapeCheck(((HashMap<String, String>) o));
+            return super.isValid(o);
         }
-        return true;
+        return shape(((HashMap<String, String>) o));
     }
 
     /**
      * @param map - casted 'o' to HashMap
      * @return boolean if shape is 'true'
      */
-    public boolean shapeCheck(HashMap<String, String> map) {
+    public boolean shape(HashMap<String, String> map) {
         for (int i = 0; i < listOfSchemas.size(); i++) {
             BaseSchema schema = listOfSchemas.get(i);
             if (!schema.isValid(map.get(listOfKeys.get(i)))) {
@@ -40,10 +32,6 @@ public class MapSchema extends BaseSchema {
         return true;
     }
 
-    public final void sizeof(int size) {
-        sizeOfMap = size;
-    }
-
     public final void shape(Map<String, BaseSchema> map) {
         for (Map.Entry<String, BaseSchema> temp : map.entrySet()) {
             listOfKeys.add(temp.getKey());
@@ -51,15 +39,15 @@ public class MapSchema extends BaseSchema {
         }
     }
 
-    public final MapSchema required() {
-        required = true;
-        return this;
+    public final void sizeof(int size) {
+        Predicate<Object> sizeOfPredicate = p -> p instanceof Map && ((Map<?, ?>) p).size() >= size;
+        super.addPredicate(sizeOfPredicate);
     }
 
-    /**
-     * @return condition of boolean 'required'
-     */
-    public boolean isRequired() {
-        return this.required;
+    public final MapSchema required() {
+        Predicate<Object> requiredPredicate = p -> p instanceof Map;
+        super.addPredicate(requiredPredicate);
+        super.setRequired();
+        return this;
     }
 }
