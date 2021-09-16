@@ -9,3 +9,5 @@
 
 
 <b>Supported formats:</b> String, int, Map.
+
+<b>Description:</b> A small library that allows you to perform data validation according to specified criteria.
