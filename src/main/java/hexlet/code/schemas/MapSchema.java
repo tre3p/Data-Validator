@@ -7,22 +7,22 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class MapSchema extends BaseSchema {
-    private  List<BaseSchema> listOfSchemas = new ArrayList<>();
-    private List<String> listOfKeys = new ArrayList<>();
+    private final List<BaseSchema> listOfSchemas = new ArrayList<>();
+    private final List<String> listOfKeys = new ArrayList<>();
 
     @Override
     public final boolean isValid(Object o) {
         if (listOfSchemas.isEmpty()) {
             return super.isValid(o);
         }
-        return shape(((HashMap<String, String>) o));
+        return shapeCheck(((HashMap<String, String>) o));
     }
 
     /**
      * @param map - casted 'o' to HashMap
      * @return boolean if shape is 'true'
      */
-    public boolean shape(HashMap<String, String> map) {
+    private boolean shapeCheck(HashMap<String, String> map) {
         for (int i = 0; i < listOfSchemas.size(); i++) {
             BaseSchema schema = listOfSchemas.get(i);
             if (!schema.isValid(map.get(listOfKeys.get(i)))) {

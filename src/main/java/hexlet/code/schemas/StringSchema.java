@@ -14,7 +14,7 @@ public class StringSchema extends BaseSchema {
      * @return current instance.
      */
 
-    public StringSchema contains(String str) {
+    public final StringSchema contains(String str) {
         Predicate<Object> containsPredicate = p -> p instanceof String && ((String) p).contains(str);
         super.addPredicate(containsPredicate);
         return this;
@@ -24,7 +24,7 @@ public class StringSchema extends BaseSchema {
      * @param min
      * @return current instance.
      */
-    public StringSchema minLength(int min) {
+    public final StringSchema minLength(int min) {
         Predicate<Object> minLengthPredicate = p -> p instanceof String && (((String) p).length() >= min);
         super.addPredicate(minLengthPredicate);
         return this;
@@ -34,7 +34,7 @@ public class StringSchema extends BaseSchema {
      * @return current instance.
      */
 
-    public StringSchema required() {
+    public final StringSchema required() {
         Predicate<Object> requiredNullPredicate = p -> !Objects.equals(p, null);
         Predicate<Object> requiredEmptyPredicate = p -> p instanceof String && !((String) p).isEmpty();
         super.addPredicate(requiredEmptyPredicate);

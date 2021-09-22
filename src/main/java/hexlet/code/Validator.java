@@ -5,15 +5,27 @@ import hexlet.code.schemas.NumberSchema;
 import hexlet.code.schemas.StringSchema;
 
 public class Validator {
-    public static StringSchema string() {
+    /**
+     *
+     * @return instance of StringSchema
+     */
+    public StringSchema string() {
         return new StringSchema();
     }
 
-    public static NumberSchema number() {
+    /**
+     *
+     * @return instance of NumberSchema
+     */
+    public NumberSchema number() {
         return new NumberSchema();
     }
 
-    public static MapSchema map() {
+    /**
+     *
+     * @return instance of MapSchema
+     */
+    public MapSchema map() {
         return new MapSchema();
     }
 }
