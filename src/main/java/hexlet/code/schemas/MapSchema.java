@@ -18,10 +18,6 @@ public class MapSchema extends BaseSchema {
         return shapeCheck(((HashMap<String, String>) o));
     }
 
-    /**
-     * @param map - casted 'o' to HashMap
-     * @return boolean if shape is 'true'
-     */
     private boolean shapeCheck(HashMap<String, String> map) {
         for (int i = 0; i < listOfSchemas.size(); i++) {
             BaseSchema schema = listOfSchemas.get(i);
